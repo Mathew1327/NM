@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Font</title>
+</head>
+<body>
+    <h1>Generated Font</h1>
+    <form id="fontForm">
+        <label for="textInput">Text:</label>
+        <input type="text" id="textInput" name="text"><br><br>
+        
+        <label for="fontSizeInput">Font Size:</label>
+        <input type="number" id="fontSizeInput" name="fontSize" min="1" value="36"><br><br>
+        
+        <label for="fontTypeInput">Font Type (path to .ttf file):</label>
+        <input type="text" id="fontTypeInput" name="fontType"><br><br>
+        
+        <label for="textColorInput">Text Color:</label>
+        <input type="text" id="textColorInput" name="textColor" value="black"><br><br>
+        
+        <label for="backgroundColorInput">Background Color:</label>
+        <input type="text" id="backgroundColorInput" name="backgroundColor" value="white"><br><br>
+        
+        <label for="outputPathInput">Output Path:</label>
+        <input type="text" id="outputPathInput" name="outputPath" value="generated_font.png"><br><br>
+        
+        <input type="submit" value="Generate Font Image">
+    </form>
+
+    <div id="fontImage"></div>
+
+    <script>
+        document.getElementById("fontForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch("generate_font.py", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("fontImage").innerHTML = `<img src="${data}" alt="Generated Font">`;
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
